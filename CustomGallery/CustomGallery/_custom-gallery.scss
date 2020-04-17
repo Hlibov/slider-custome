@@ -1,0 +1,202 @@
+$carouselAnimSpeed: .8s;
+
+.custom-gallery {
+	position: relative;
+	width:100%;
+	
+	&.is-animating {
+		.slide{
+			&:before {
+				opacity: 0;
+			}
+		}
+	}
+
+	.resize-active & {
+		.mask {
+			transition: none !important;
+		}
+	}
+
+	.mask {
+		position: relative;
+		transition: height $carouselAnimSpeed;
+		max-width: 48.5%;
+		margin: 0 auto 10px;
+		
+			@include media('<tablet') {
+				max-width: 70%;
+			}
+		
+			@include media('≥desktop') {
+				margin-bottom:15px;
+			}
+	}
+
+	.slide {
+		background: $base-background-color;
+		position: absolute;
+		left: 0;
+		top: 50%;
+		width: 100%;
+		z-index: 1;
+		transform: scale(0.7) translateY(-75%);
+		transition: transform $carouselAnimSpeed, left $carouselAnimSpeed, opacity $carouselAnimSpeed/2;
+		opacity: 0;
+		transform-origin: center;
+		text-align:center;
+		
+			@include media('<tablet') {
+				transform: scale(0.9) translateY(-52%);
+			}
+		
+		&:before {
+			content: '';
+			position:absolute;
+			top:50%;
+			left:0;
+			z-index:-1;
+			height:80%;
+			width:100%;
+			opacity: 1;
+			transform:translateY(-50%);
+			transition:opacity $carouselAnimSpeed, background 0.4s;
+		}
+
+		&.prev-slide,
+		&.next-slide{
+			opacity: 1;
+			width:80%;
+			
+			&:before {
+				background: rgba($primary-color, 0.3);
+				width:50%;
+			}
+		}
+
+		&.prev-slide {
+			left:-70%;
+			
+				@include media('<tablet') {
+					left:-60%;
+				}
+			
+			&:before {
+				left:auto;
+				right:0;
+			}
+		}
+
+		&.next-slide {
+			left:90%;
+			
+				@include media('<tablet') {
+					left:80%;
+				}
+		}
+
+		&.active {
+			opacity: 1;
+			z-index: 5;
+			width:100%;
+			
+			transform: scale(1) translateY(-50%);
+			color: $add-color;
+			
+			&:before {
+				background: $add-color;
+				height:100%;
+			}
+		}
+	}
+	
+	.hold {
+		display:block;
+		padding:40px;
+		color: inherit;
+		
+			@include media('≥desktop') {
+				padding:97px 60px;
+			}
+	}
+	
+	.pagination-holder {
+		position:relative;
+		text-align:center;
+	}
+
+	.prev,
+	.next{
+		color: $add-color;
+		position:relative;
+		display:inline-block;
+		vertical-align:middle;
+		z-index: 10;
+		font-size: 14px;
+		line-height: 28px;
+		padding: 0 2px;
+		transition:color 0.2s ease-out, background 0.2s ease-out;
+		opacity:1;
+
+			@include media('≥desktop') {
+				font-size: 20px;
+				line-height: 34px;
+				margin: 0 14px;
+			}
+
+		&:hover{
+			color: $alt-color;
+		}
+		
+		span {
+			line-height:25px;
+			
+				@include media('≥desktop') {
+					line-height:34px;
+				}
+		}
+	}
+	
+	.pagination {
+		@extend %listreset;
+		display:inline-block;
+		vertical-align:middle;
+		padding:5px;
+		
+		li {
+			float:left;
+			margin: 0 5px;
+			
+			&.active {
+				a {
+					&:before {
+						background: $alt-color;
+						border-color: $alt-color;
+					}
+				}
+			}
+		}
+		
+		a {
+			@include size(16px);
+			display:block;
+			text-indent:-9999px;
+			overflow:hidden;
+			position:relative;
+			
+			&:before {
+				content: '';
+				@include position-center;
+				@include size(12px);
+				border: 1px solid $add-color;
+			}
+			
+			&:hover {
+				&:before {
+					background: $alt-color;
+					border-color: $alt-color;
+				}
+			}
+		}
+	}
+}
